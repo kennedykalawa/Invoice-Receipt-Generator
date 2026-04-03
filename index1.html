@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice & Receipt Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="style.css" rel="stylesheet">
+</head>
+<body>
+<div class="app-wrap">
+
+  <div class="app-header">
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+      <span id="theme-icon">🌙</span>
+      <div class="toggle-track"><div class="toggle-thumb"></div></div>
+      <span class="toggle-label" id="theme-label">Dark</span>
+    </button>
+    <h1>Invoice & Receipt Generator</h1>
+    <p>Fill in the details below to generate a professional document instantly</p>
+  </div>
+
+  <div class="cols">
+    <!-- ── FORM ── -->
+    <div class="form-card">
+      <h2>Document Details</h2>
+
+      <!-- Doc type -->
+      <div class="section-label">Document Type</div>
+      <div class="type-toggle">
+        <button class="type-btn active" onclick="setType('Invoice')">🧾 Invoice</button>
+        <button class="type-btn" onclick="setType('Receipt')">✅ Receipt</button>
+      </div>
+
+      <!-- Business Info -->
+      <div class="section-label">Your Business</div>
+      <div class="field">
+        <label>Business / Company Name</label>
+        <input id="biz-name" type="text" placeholder="e.g. Lawa MedHub" oninput="render()">
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Tagline</label>
+          <input id="biz-tagline" type="text" placeholder="Better Supplies. Better Care." oninput="render()">
+        </div>
+        <div class="field">
+          <label>Logo (optional)</label>
+          <input type="file" accept="image/*" onchange="handleLogo(event)">
+          <img id="logo-preview" class="logo-preview" alt="logo">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Phone</label>
+          <input id="biz-phone" type="text" placeholder="0799290006" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input id="biz-email" type="text" placeholder="info@business.com" oninput="render()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Payment Info (e.g. M-Pesa Paybill)</label>
+        <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006" oninput="render()">
+      </div>
+
+      <!-- From / To -->
+      <div class="section-label">Parties</div>
+      <div class="form-row">
+        <div class="field">
+          <label>From (Sender)</label>
+          <input id="from-name" type="text" placeholder="Your name or business" oninput="render()">
+        </div>
+        <div class="field">
+          <label>To (Client / Customer)</label>
+          <input id="to-name" type="text" placeholder="e.g. Dr. Kerubo" oninput="render()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Client Address / Phone (optional)</label>
+          <input id="to-detail" type="text" placeholder="Address or contact" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input id="doc-date" type="date" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Doc ID -->
+      <div class="form-row">
+        <div class="field">
+          <label>Invoice / Order Number</label>
+          <input id="doc-number" type="text" placeholder="e.g. INV-0045" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Currency Symbol</label>
+          <input id="currency" type="text" placeholder="KSh" value="KSh" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="section-label">Items / Services</div>
+      <div class="items-section" id="items-container"></div>
+      <button class="btn-add-item" onclick="addItem()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Add Item
+      </button>
+
+      <!-- Shipping -->
+      <div class="section-label">Extras</div>
+      <div class="form-row">
+        <div class="field">
+          <label>Shipping / Delivery Fee</label>
+          <input id="shipping" type="number" placeholder="0" value="0" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Discount</label>
+          <input id="discount" type="number" placeholder="0" value="0" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="field">
+        <label>Notes / Terms (optional)</label>
+        <textarea id="doc-notes" placeholder="Thank you for your order! Payment due within 7 days." oninput="render()"></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn-generate" onclick="render()">⚡ Generate Document</button>
+        <button class="btn-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+
+    <!-- ── PREVIEW ── -->
+    <div class="preview-card">
+      <div class="preview-label">
+        <span>DOCUMENT PREVIEW</span>
+        <span id="preview-type-label">Invoice</span>
+      </div>
+      <div id="doc-output">
+        <div class="placeholder-msg">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="4" width="44" height="56" rx="5" stroke="#0d7b6e" stroke-width="2.5"/>
+            <line x1="20" y1="20" x2="44" y2="20" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="28" x2="44" y2="28" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="36" x2="36" y2="36" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <p>Fill in the form and your document will appear here.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let docType = 'Invoice';
+  let logoDataUrl = '';
+  let items = [{ name: '', sku: '', qty: 1, price: '' }];
+
+  // Theme toggle
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('theme-icon').textContent = isDark ? '🌙' : '☀️';
+    document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+    localStorage.setItem('invoice-theme', isDark ? 'light' : 'dark');
+  }
+  // Restore saved theme
+  const saved = localStorage.getItem('invoice-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('theme-icon').textContent = '☀️';
+    document.getElementById('theme-label').textContent = 'Light';
+  }
+
+  // Set today's date
+  document.getElementById('doc-date').value = new Date().toISOString().split('T')[0];
+
+  function setType(t) {
+    docType = t;
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.textContent.includes(t)));
+    document.getElementById('preview-type-label').textContent = t;
+    render();
+  }
+
+  function handleLogo(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      logoDataUrl = ev.target.result;
+      const prev = document.getElementById('logo-preview');
+      prev.src = logoDataUrl;
+      prev.classList.add('show');
+      render();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function renderItems() {
+    const container = document.getElementById('items-container');
+    container.innerHTML = '';
+    items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML = `
+        <div class="field">
+          <label>${i === 0 ? 'Item / Service Name' : ''}</label>
+          <input type="text" placeholder="e.g. Mauve scrubs" value="${esc(item.name)}"
+            oninput="items[${i}].name=this.value;render()">
+        </div>
+        <div class="field">
+          <label>${i === 0 ? 'Qty' : ''}</label>
+          <input type="number" min="1" placeholder="1" value="${item.qty}"
+            oninput="items[${i}].qty=this.value;render()">
+        </div>
+        <div class="field">
+          <label>${i === 0 ? 'Unit Price' : ''}</label>
+          <input type="number" placeholder="0.00" value="${item.price}"
+            oninput="items[${i}].price=this.value;render()">
+        </div>
+        <button class="btn-remove" onclick="removeItem(${i})" title="Remove">✕</button>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function addItem() {
+    items.push({ name: '', sku: '', qty: 1, price: '' });
+    renderItems();
+  }
+
+  function removeItem(i) {
+    if (items.length === 1) return;
+    items.splice(i, 1);
+    renderItems();
+    render();
+  }
+
+  function esc(s) {
+    return (s || '').replace(/"/g, '&quot;');
+  }
+
+  function fmt(n) {
+    const currency = document.getElementById('currency').value || 'KSh';
+    return `${currency} ${parseFloat(n || 0).toLocaleString('en-KE', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+  }
+
+  function render() {
+    renderItems();
+    const bizName = document.getElementById('biz-name').value || 'Your Business';
+    const tagline = document.getElementById('biz-tagline').value;
+    const phone = document.getElementById('biz-phone').value;
+    const email = document.getElementById('biz-email').value;
+    const payment = document.getElementById('biz-payment').value;
+    const fromName = document.getElementById('from-name').value || bizName;
+    const toName = document.getElementById('to-name').value || 'Customer';
+    const toDetail = document.getElementById('to-detail').value;
+    const dateVal = document.getElementById('doc-date').value;
+    const dateStr = dateVal ? new Date(dateVal + 'T00:00:00').toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'}) : 'Today';
+    const docNum = document.getElementById('doc-number').value || `${docType.toUpperCase()}-0001`;
+    const notes = document.getElementById('doc-notes').value;
+    const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+    const discount = parseFloat(document.getElementById('discount').value) || 0;
+
+    const subtotal = items.reduce((s, it) => s + (parseFloat(it.qty)||1)*(parseFloat(it.price)||0), 0);
+    const total = Math.max(0, subtotal + shipping - discount);
+    const itemCount = items.reduce((s, it) => s + (parseFloat(it.qty)||1), 0);
+
+    const logoHtml = logoDataUrl
+      ? `<img class="doc-logo-img" src="${logoDataUrl}" alt="logo">`
+      : `<div style="width:72px;height:72px;background:var(--teal);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:4px;">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 4C10.268 4 4 10.268 4 18s6.268 14 14 14 14-6.268 14-14S25.732 4 18 4zm0 6v8l5 3" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+         </div>`;
+
+    const itemsRows = items.map(it => {
+      const lineTotal = (parseFloat(it.qty)||1) * (parseFloat(it.price)||0);
+      return `<tr>
+        <td><span class="item-desc">${it.name || '—'}</span></td>
+        <td style="text-align:center">${it.qty || 1}</td>
+        <td style="text-align:right">${fmt(it.price)}</td>
+        <td>${fmt(lineTotal)}</td>
+      </tr>`;
+    }).join('');
+
+    const contactBar = (phone || email || payment) ? `
+      <div class="doc-contact-bar">
+        ${payment ? `<span>💳 ${payment}</span>` : ''}
+        <span>
+          ${phone ? `📞 ${phone}` : ''}
+          ${email ? `&nbsp;&nbsp;✉️ ${email}` : ''}
+        </span>
+      </div>` : '';
+
+    const shippingRow = shipping > 0 ? `<tr><td style="color:var(--mid)">Shipping</td><td>${fmt(shipping)}</td></tr>` : `<tr><td style="color:var(--mid)">Shipping</td><td>FREE</td></tr>`;
+    const discountRow = discount > 0 ? `<tr><td style="color:var(--mid)">Discount</td><td>-${fmt(discount)}</td></tr>` : '';
+
+    document.getElementById('doc-output').innerHTML = `
+      <div class="doc-logo-area">
+        ${logoHtml}
+        <div class="doc-company-name">${bizName}</div>
+        ${tagline ? `<div class="doc-tagline">${tagline}</div>` : ''}
+      </div>
+
+      ${contactBar}
+
+      <div class="doc-meta">
+        <div>
+          <div class="doc-doc-type">${docType}</div>
+          <div class="doc-meta-date">${dateStr}</div>
+          <div class="doc-order-id" style="margin-top:6px"><strong>#${docNum}</strong></div>
+        </div>
+        <div class="doc-from-to">
+          <div class="doc-party">
+            <div class="party-label">From</div>
+            <div class="party-name">${fromName}</div>
+          </div>
+          <div class="doc-party">
+            <div class="party-label">To</div>
+            <div class="party-name">${toName}</div>
+            ${toDetail ? `<div class="party-detail">${toDetail}</div>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <table class="doc-items">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th style="text-align:center">Qty</th>
+            <th style="text-align:right">Unit Price</th>
+            <th style="text-align:right">Total</th>
+          </tr>
+        </thead>
+        <tbody>${itemsRows}</tbody>
+      </table>
+
+      <table class="doc-totals" style="margin-left:auto;width:240px">
+        <tr><td style="color:var(--mid)">${itemCount} Item${itemCount!==1?'s':''}</td><td>${fmt(subtotal)}</td></tr>
+        ${shippingRow}
+        ${discountRow}
+        <tr class="total-row"><td>Total</td><td>${fmt(total)}</td></tr>
+      </table>
+
+      ${notes ? `<div class="doc-notes"><strong>Notes</strong>${notes}</div>` : ''}
+
+      <div class="doc-footer">
+        <strong>Thank you for your order!</strong>
+        ${payment ? payment : ''}
+      </div>
+    `;
+    document.getElementById('preview-type-label').textContent = docType;
+  }
+
+  // Init
+  renderItems();
+</script>
+</body>
+</html>
