@@ -251,7 +251,7 @@ let trackingActive = false;
 
 // Hide the setup banner if URL is already baked in
 const setupBanner = document.getElementById('setup-banner');
-if (sheetUrl && sheetUrl !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+if (sheetUrl && sheetUrl !== 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec') {
   if (setupBanner) setupBanner.style.display = 'none';
 }
 
