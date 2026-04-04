@@ -297,8 +297,8 @@ function setTrackingPill(active) {
 }
 
 function trackSession(eventType) {
-  if (currentUser.name !== 'Anonymous') setTrackingPill(!!sheetUrl && sheetUrl !== 'YOUR_APPS_SCRIPT_URL_HERE');
-  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  if (currentUser.name !== 'Anonymous') setTrackingPill(!!sheetUrl && sheetUrl !== 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec');
+  if (!sheetUrl || sheetUrl === 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec') return;
   sendToSheet({
     type: 'session',
     event: eventType,
@@ -311,7 +311,7 @@ function trackSession(eventType) {
 }
 
 function trackDocument() {
-  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  if (!sheetUrl || sheetUrl === 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec') return;
   const shipping = parseFloat(document.getElementById('shipping').value) || 0;
   const discount = parseFloat(document.getElementById('discount').value) || 0;
   const subtotal = items.reduce((s, it) => s + (parseFloat(it.qty) || 1) * (parseFloat(it.price) || 0), 0);
@@ -332,7 +332,7 @@ function trackDocument() {
 }
 
 function sendToSheet(payload) {
-  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  if (!sheetUrl || sheetUrl === 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec') return;
   const body = JSON.stringify(payload);
 
   // Method 1: sendBeacon — works on Brave/Firefox, bypasses most blockers
