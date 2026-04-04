@@ -243,7 +243,7 @@ function renderPreview() {
 
 // ── TRACKING ───────────────────────────────────────────────
 // 👇 Paste your Google Apps Script Web App URL here ONCE — tracking works for everyone automatically
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyudg50R2ZTfaGzZLTPsA_Lo7Hx-V7efrSkUutyEPJfWnLsCYq-btCrqLDJQCLqZtakRw/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxldZ5g1IwAN8Pac_xXckZ44Nc1NXSTIDrnFLNddnpJ8lyegdEEtq-6ZvDMFaw_zp_yVg/exec';
 
 let currentUser = { name: 'Anonymous', role: '' };
 let sheetUrl = SHEET_URL;

@@ -16,7 +16,7 @@
 // ============================================================
 
 // 👇 REPLACE THIS WITH YOUR SPREADSHEET ID
-const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
+const SPREADSHEET_ID = '1gLsZEX8Qo_vO13GA_g0DqCpw7HvdLktRESStmuFTkCY';
 
 // Handles POST (fetch/sendBeacon) requests
 function doPost(e) {
