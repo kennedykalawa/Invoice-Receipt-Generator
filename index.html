@@ -108,3 +108,96 @@
         <label>Payment Info (e.g. M-Pesa Paybill)</label>
         <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006" oninput="render()">
       </div>
+
+       <!-- Parties -->
+      <div class="section-label">Parties</div>
+      <div class="form-row">
+        <div class="field">
+          <label>From (Sender)</label>
+          <input id="from-name" type="text" placeholder="Your name or business" oninput="render()">
+        </div>
+        <div class="field">
+          <label>To (Client / Customer)</label>
+          <input id="to-name" type="text" placeholder="e.g. Dr. Kerubo" oninput="render()">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Client Address / Phone (optional)</label>
+          <input id="to-detail" type="text" placeholder="Address or contact" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Date</label>
+          <input id="doc-date" type="date" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Doc Number & Currency -->
+      <div class="form-row">
+        <div class="field">
+          <label>Invoice / Order Number</label>
+          <input id="doc-number" type="text" placeholder="e.g. INV-0045" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Currency Symbol</label>
+          <input id="currency" type="text" placeholder="KSh" value="KSh" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="section-label">Items / Services</div>
+      <div class="items-section" id="items-container"></div>
+      <button class="btn-add-item" onclick="addItem()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Add Item
+      </button>
+
+      <!-- Extras -->
+      <div class="section-label">Extras</div>
+      <div class="form-row">
+        <div class="field">
+          <label>Shipping / Delivery Fee</label>
+          <input id="shipping" type="number" placeholder="0" value="0" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Discount</label>
+          <input id="discount" type="number" placeholder="0" value="0" oninput="render()">
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="field">
+        <label>Notes / Terms (optional)</label>
+        <textarea id="doc-notes" placeholder="Thank you for your order! Payment due within 7 days." oninput="render()"></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn-generate" onclick="render(); trackDocument()">⚡ Generate Document</button>
+        <button class="btn-print" onclick="trackDocument(); window.print()">🖨️ Print / Save PDF</button>
+      </div>
+    </div>
+
+       <!-- ── PREVIEW ── -->
+    <div class="preview-card">
+      <div class="preview-label">
+        <span>DOCUMENT PREVIEW</span>
+        <span id="preview-type-label">Invoice</span>
+      </div>
+      <div id="doc-output">
+        <div class="placeholder-msg">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <rect x="10" y="4" width="44" height="56" rx="5" stroke="#0d7b6e" stroke-width="2.5"/>
+            <line x1="20" y1="20" x2="44" y2="20" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="28" x2="44" y2="28" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="36" x2="36" y2="36" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <p>Fill in the form and your document will appear here.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
