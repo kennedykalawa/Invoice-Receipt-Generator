@@ -110,6 +110,7 @@ function addItem() {
   const rows = itemsContainer.querySelectorAll('.item-row');
   rows[rows.length - 1].querySelector('input[data-field="name"]').focus();
 }
+
 // ── HELPERS ────────────────────────────────────────────────
 function esc(s) {
   return (s || '').replace(/"/g, '&quot;');
@@ -241,13 +242,17 @@ function renderPreview() {
 }
 
 // ── TRACKING ───────────────────────────────────────────────
+// 👇 Paste your Google Apps Script Web App URL here ONCE — tracking works for everyone automatically
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyudg50R2ZTfaGzZLTPsA_Lo7Hx-V7efrSkUutyEPJfWnLsCYq-btCrqLDJQCLqZtakRw/exec';
+
 let currentUser = { name: 'Anonymous', role: '' };
-let sheetUrl = localStorage.getItem('invoice-sheet-url') || '';
+let sheetUrl = SHEET_URL;
 let trackingActive = false;
 
-if (sheetUrl) {
-  document.getElementById('sheet-url-input').value = sheetUrl;
-  setBannerConnected();
+// Hide the setup banner if URL is already baked in
+const setupBanner = document.getElementById('setup-banner');
+if (sheetUrl && sheetUrl !== 'YOUR_APPS_SCRIPT_URL_HERE') {
+  if (setupBanner) setupBanner.style.display = 'none';
 }
 
 const sessionUser = sessionStorage.getItem('invoice-user');
@@ -278,39 +283,6 @@ function skipLogin() {
   trackSession('page_open');
 }
 
-function saveSheetUrl() {
-  const val = document.getElementById('sheet-url-input').value.trim();
-  if (!val.startsWith('https://script.google.com')) {
-    alert('Please paste a valid Google Apps Script Web App URL.\nIt should start with: https://script.google.com/macros/s/...');
-    return;
-  }
-  sheetUrl = val;
-  localStorage.setItem('invoice-sheet-url', sheetUrl);
-  setBannerConnected();
-  trackSession('tracking_connected');
-}
-
-function setBannerConnected() {
-  const banner = document.getElementById('setup-banner');
-  banner.classList.add('connected');
-  banner.innerHTML = `
-    <div class="banner-top">
-      <span class="banner-icon">✅</span>
-      <div>
-        <strong>Tracking connected!</strong>
-        Usage data is being sent to your Google Sheet.
-        <span style="margin-left:10px;cursor:pointer;color:#0d7b6e;font-weight:600" onclick="disconnectSheet()">Disconnect</span>
-      </div>
-    </div>`;
-  setTrackingPill(true);
-}
-
-function disconnectSheet() {
-  sheetUrl = '';
-  localStorage.removeItem('invoice-sheet-url');
-  location.reload();
-}
-
 function setTrackingPill(active) {
   trackingActive = active;
   const dot  = document.getElementById('track-dot');
@@ -325,8 +297,8 @@ function setTrackingPill(active) {
 }
 
 function trackSession(eventType) {
-  if (currentUser.name !== 'Anonymous') setTrackingPill(!!sheetUrl);
-     if (!sheetUrl) return;
+  if (currentUser.name !== 'Anonymous') setTrackingPill(!!sheetUrl && sheetUrl !== 'YOUR_APPS_SCRIPT_URL_HERE');
+  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
   sendToSheet({
     type: 'session',
     event: eventType,
@@ -339,7 +311,7 @@ function trackSession(eventType) {
 }
 
 function trackDocument() {
-  if (!sheetUrl) return;
+  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
   const shipping = parseFloat(document.getElementById('shipping').value) || 0;
   const discount = parseFloat(document.getElementById('discount').value) || 0;
   const subtotal = items.reduce((s, it) => s + (parseFloat(it.qty) || 1) * (parseFloat(it.price) || 0), 0);
@@ -360,7 +332,7 @@ function trackDocument() {
 }
 
 function sendToSheet(payload) {
-  if (!sheetUrl) return;
+  if (!sheetUrl || sheetUrl === 'YOUR_APPS_SCRIPT_URL_HERE') return;
   const body = JSON.stringify(payload);
 
   // Method 1: sendBeacon — works on Brave/Firefox, bypasses most blockers
@@ -382,20 +354,7 @@ function sendToSheet(payload) {
   });
 }
 
-function showSetupGuide(e) {
-  e.preventDefault();
-  alert(
-    '📊 HOW TO SET UP GOOGLE SHEETS TRACKING\n\n' +
-    '1. Open Google Sheets → create a new spreadsheet\n' +
-    '2. Go to Extensions → Apps Script\n' +
-    '3. Delete any existing code and paste the Apps Script code\n' +
-    '4. Click Deploy → New Deployment\n' +
-    '5. Type: Web App | Execute as: Me | Who has access: Anyone\n' +
-    '6. Click Deploy → Copy the Web App URL\n' +
-    '7. Paste that URL into the box in the banner above\n\n' +
-    "That's it! Every session open and document generated will be logged."
-  );
-}
+
 
 // ── INIT ───────────────────────────────────────────────────
 syncItemRows();

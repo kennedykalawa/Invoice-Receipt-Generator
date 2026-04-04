@@ -1,4 +1,4 @@
- * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -472,7 +472,7 @@ body {
   text-transform: uppercase;
   display: flex;
   justify-content: space-between;
-    align-items: center;
+  align-items: center;
 }
 
 [data-theme="dark"] .preview-label {
@@ -610,7 +610,7 @@ body {
   font-weight: 600;
   color: #0d7b6e;
   text-transform: uppercase;
-   letter-spacing: .8px;
+  letter-spacing: .8px;
 }
 
 [data-theme="dark"] .doc-items th { color: #2ec4b0; }
@@ -742,43 +742,6 @@ body {
   font-size: 14px;
 }
 
-.setup-banner .banner-url-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.setup-banner .banner-url-row input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1.5px solid #f4a300;
-  border-radius: 8px;
-  font-size: 12px;
-  font-family: 'DM Sans', sans-serif;
-  background: #fff;
-  color: #1a1f2e;
-  outline: none;
-}
-
-.setup-banner .banner-url-row input:focus {
-  border-color: #0d7b6e;
-}
-
-.banner-save-btn {
-  padding: 8px 16px;
-  background: #f4a300;
-  color: #1a1f2e;
-  border: none;
-  border-radius: 8px;
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background .2s;
-}
-
-.banner-save-btn:hover { background: #e09600; }
 
 .setup-banner.connected {
   background: linear-gradient(135deg, #d1fae5, #a7f3d0);
@@ -823,7 +786,7 @@ body {
 }
 
 .modal-box h2 {
-     font-family: 'Playfair Display', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 24px;
   color: #0d7b6e;
   margin-bottom: 6px;
@@ -889,8 +852,4 @@ body {
   .cols { grid-template-columns: 1fr; }
   .preview-card { box-shadow: none; border-radius: 0; }
   #doc-output { padding: 10px; }
-}
-.K{
-    text-decoration: none;
-    background-color: aqua;
 }

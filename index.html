@@ -52,25 +52,21 @@
     <div class="form-card">
       <h2>Document Details</h2>
 
-      <!-- Setup Banner -->
+      <!-- Setup Banner — only visible until SHEET_URL is set in app.js -->
       <div class="setup-banner" id="setup-banner">
         <div class="banner-top">
           <span class="banner-icon">📊</span>
           <div>
-            <strong>Connect Google Sheets to track usage</strong>
-            Paste your Apps Script Web App URL below to start logging users &amp; documents automatically.
-            <a href="#" onclick="showSetupGuide(event)" style="color:#0d7b6e;font-weight:600;text-decoration:none;display:inline-block;margin-top:4px;">
-              📖 How to set this up →
-            </a>
+            <strong>One-time setup needed</strong>
+            Open <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;">app.js</code>
+            and replace <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;">YOUR_APPS_SCRIPT_URL_HERE</code>
+            with your Google Apps Script Web App URL.
+            Once set, this banner disappears for everyone automatically.
           </div>
-        </div>
-        <div class="banner-url-row">
-          <input id="sheet-url-input" type="text" placeholder="https://script.google.com/macros/s/.../exec">
-          <button class="banner-save-btn" onclick="saveSheetUrl()">Save</button>
         </div>
       </div>
 
-        <!-- Doc Type -->
+      <!-- Doc Type -->
       <div class="section-label">Document Type</div>
       <div class="type-toggle">
         <button class="type-btn active" onclick="setType('Invoice')">🧾 Invoice</button>
@@ -109,7 +105,7 @@
         <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006" oninput="render()">
       </div>
 
-       <!-- Parties -->
+      <!-- Parties -->
       <div class="section-label">Parties</div>
       <div class="form-row">
         <div class="field">
@@ -177,10 +173,9 @@
         <button class="btn-generate" onclick="render(); trackDocument()">⚡ Generate Document</button>
         <button class="btn-print" onclick="trackDocument(); window.print()">🖨️ Print / Save PDF</button>
       </div>
-      &lt;&lt;<button type=""><a href="https://kennedykalawa.github.io/portfolio-sample/" class="K">Ktec</a></button> &gt;&gt;
     </div>
 
-       <!-- ── PREVIEW ── -->
+    <!-- ── PREVIEW ── -->
     <div class="preview-card">
       <div class="preview-label">
         <span>DOCUMENT PREVIEW</span>
@@ -205,4 +200,3 @@
 <script src="app.js"></script>
 </body>
 </html>
-
