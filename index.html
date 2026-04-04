@@ -69,3 +69,42 @@
           <button class="banner-save-btn" onclick="saveSheetUrl()">Save</button>
         </div>
       </div>
+
+        <!-- Doc Type -->
+      <div class="section-label">Document Type</div>
+      <div class="type-toggle">
+        <button class="type-btn active" onclick="setType('Invoice')">🧾 Invoice</button>
+        <button class="type-btn" onclick="setType('Receipt')">✅ Receipt</button>
+      </div>
+
+      <!-- Business Info -->
+      <div class="section-label">Your Business</div>
+      <div class="field">
+        <label>Business / Company Name</label>
+        <input id="biz-name" type="text" placeholder="e.g. Lawa MedHub" oninput="render()">
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Tagline</label>
+          <input id="biz-tagline" type="text" placeholder="Better Supplies. Better Care." oninput="render()">
+        </div>
+        <div class="field">
+          <label>Logo (optional)</label>
+          <input type="file" accept="image/*" onchange="handleLogo(event)">
+          <img id="logo-preview" class="logo-preview" alt="logo">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Phone</label>
+          <input id="biz-phone" type="text" placeholder="0799290006" oninput="render()">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input id="biz-email" type="text" placeholder="info@business.com" oninput="render()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Payment Info (e.g. M-Pesa Paybill)</label>
+        <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006" oninput="render()">
+      </div>
