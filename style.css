@@ -890,3 +890,7 @@ body {
   .preview-card { box-shadow: none; border-radius: 0; }
   #doc-output { padding: 10px; }
 }
+.K{
+    text-decoration: none;
+    background-color: aqua;
+}
