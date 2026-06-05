@@ -10,7 +10,7 @@
 <body>
 
 <!-- ── LOGIN MODAL ── -->
-<div class="modal-overlay" id="login-modal">
+<div class="modal-overlay" id="login-modal" style="display: none;">
   <div class="modal-box">
     <h2>👋 Welcome!</h2>
     <p class="modal-sub">Enter your name so we can track who's using the generator.</p>
@@ -35,7 +35,7 @@
       <div class="track-dot" id="track-dot"></div>
       <span id="track-pill-text">Not tracking</span>
     </div>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+    <button class="theme-toggle" title="Toggle dark/light mode">
       <span id="theme-icon">🌙</span>
       <div class="toggle-track">
         <div class="toggle-thumb"></div>
@@ -52,16 +52,15 @@
     <div class="form-card">
       <h2>Document Details</h2>
 
-      <!-- Setup Banner — only visible until SHEET_URL is set in app.js -->
+      <!-- Setup Banner -->
       <div class="setup-banner" id="setup-banner">
         <div class="banner-top">
           <span class="banner-icon">📊</span>
           <div>
             <strong>One-time setup needed</strong>
             Open <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;">app.js</code>
-            and replace <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;">YOUR_APPS_SCRIPT_URL_HERE</code>
+            and replace the <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:4px;">SHEET_URL</code>
             with your Google Apps Script Web App URL.
-            Once set, this banner disappears for everyone automatically.
           </div>
         </div>
       </div>
@@ -69,40 +68,40 @@
       <!-- Doc Type -->
       <div class="section-label">Document Type</div>
       <div class="type-toggle">
-        <button class="type-btn active" onclick="setType('Invoice')">🧾 Invoice</button>
-        <button class="type-btn" onclick="setType('Receipt')">✅ Receipt</button>
+        <button class="type-btn active">🧾 Invoice</button>
+        <button class="type-btn">✅ Receipt</button>
       </div>
 
       <!-- Business Info -->
       <div class="section-label">Your Business</div>
       <div class="field">
         <label>Business / Company Name</label>
-        <input id="biz-name" type="text" placeholder="e.g. Lawa MedHub" oninput="render()">
+        <input id="biz-name" type="text" placeholder="e.g. Lawa MedHub">
       </div>
       <div class="form-row">
         <div class="field">
           <label>Tagline</label>
-          <input id="biz-tagline" type="text" placeholder="Better Supplies. Better Care." oninput="render()">
+          <input id="biz-tagline" type="text" placeholder="Better Supplies. Better Care.">
         </div>
         <div class="field">
           <label>Logo (optional)</label>
-          <input type="file" accept="image/*" onchange="handleLogo(event)">
+          <input type="file" accept="image/*">
           <img id="logo-preview" class="logo-preview" alt="logo">
         </div>
       </div>
       <div class="form-row">
         <div class="field">
           <label>Phone</label>
-          <input id="biz-phone" type="text" placeholder="0799290006" oninput="render()">
+          <input id="biz-phone" type="text" placeholder="0799290006">
         </div>
         <div class="field">
           <label>Email</label>
-          <input id="biz-email" type="text" placeholder="info@business.com" oninput="render()">
+          <input id="biz-email" type="text" placeholder="info@business.com">
         </div>
       </div>
       <div class="field">
         <label>Payment Info (e.g. M-Pesa Paybill)</label>
-        <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006" oninput="render()">
+        <input id="biz-payment" type="text" placeholder="Lipa na M-Pesa Paybill: 247247  Acc: 0799200006">
       </div>
 
       <!-- Parties -->
@@ -110,21 +109,21 @@
       <div class="form-row">
         <div class="field">
           <label>From (Sender)</label>
-          <input id="from-name" type="text" placeholder="Your name or business" oninput="render()">
+          <input id="from-name" type="text" placeholder="Your name or business">
         </div>
         <div class="field">
           <label>To (Client / Customer)</label>
-          <input id="to-name" type="text" placeholder="e.g. Dr. Kerubo" oninput="render()">
+          <input id="to-name" type="text" placeholder="e.g. Dr. Kerubo">
         </div>
       </div>
       <div class="form-row">
         <div class="field">
           <label>Client Address / Phone (optional)</label>
-          <input id="to-detail" type="text" placeholder="Address or contact" oninput="render()">
+          <input id="to-detail" type="text" placeholder="Address or contact">
         </div>
         <div class="field">
           <label>Date</label>
-          <input id="doc-date" type="date" oninput="render()">
+          <input id="doc-date" type="date">
         </div>
       </div>
 
@@ -132,18 +131,18 @@
       <div class="form-row">
         <div class="field">
           <label>Invoice / Order Number</label>
-          <input id="doc-number" type="text" placeholder="e.g. INV-0045" oninput="render()">
+          <input id="doc-number" type="text" placeholder="e.g. INV-0045">
         </div>
         <div class="field">
           <label>Currency Symbol</label>
-          <input id="currency" type="text" placeholder="KSh" value="KSh" oninput="render()">
+          <input id="currency" type="text" placeholder="KSh" value="KSh">
         </div>
       </div>
 
       <!-- Items -->
       <div class="section-label">Items / Services</div>
       <div class="items-section" id="items-container"></div>
-      <button class="btn-add-item" onclick="addItem()">
+      <button class="btn-add-item">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
@@ -155,23 +154,34 @@
       <div class="form-row">
         <div class="field">
           <label>Shipping / Delivery Fee</label>
-          <input id="shipping" type="number" placeholder="0" value="0" oninput="render()">
+          <input id="shipping" type="number" placeholder="0" value="0">
         </div>
         <div class="field">
           <label>Discount</label>
-          <input id="discount" type="number" placeholder="0" value="0" oninput="render()">
+          <input id="discount" type="number" placeholder="0" value="0">
         </div>
       </div>
 
       <!-- Notes -->
       <div class="field">
         <label>Notes / Terms (optional)</label>
-        <textarea id="doc-notes" placeholder="Thank you for your order! Payment due within 7 days." oninput="render()"></textarea>
+        <textarea id="doc-notes" placeholder="Thank you for your order! Payment due within 7 days."></textarea>
       </div>
 
       <div class="actions">
-        <button class="btn-generate" onclick="render(); trackDocument()">⚡ Generate Document</button>
-        <button class="btn-print" onclick="trackDocument(); window.print()">🖨️ Print / Save PDF</button>
+        <button class="btn-generate">⚡ Generate</button>
+        <button class="btn-print">🖨️ Print / PDF</button>
+        <button class="btn-reset" onclick="window.app.resetForm()" title="Clear all data" style="background:var(--danger);color:white;border:none;border-radius:12px;padding:13px 20px;font-weight:600;cursor:pointer;">🔄 Reset</button>
+      </div>
+
+      <div class="actions" style="margin-top:12px; gap:8px;">
+        <button onclick="window.app.exportData()" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border-color);background:var(--card-bg);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          📤 Export Data
+        </button>
+        <label style="flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--border-color);background:var(--card-bg);color:var(--text-muted);font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          📥 Import Data
+          <input type="file" accept=".json" style="display:none" onchange="window.app.importData(this.files[0])">
+        </label>
       </div>
     </div>
 
@@ -184,10 +194,10 @@
       <div id="doc-output">
         <div class="placeholder-msg">
           <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <rect x="10" y="4" width="44" height="56" rx="5" stroke="#0d7b6e" stroke-width="2.5"/>
-            <line x1="20" y1="20" x2="44" y2="20" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="28" x2="44" y2="28" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
-            <line x1="20" y1="36" x2="36" y2="36" stroke="#0d7b6e" stroke-width="2" stroke-linecap="round"/>
+            <rect x="10" y="4" width="44" height="56" rx="5" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="20" y1="20" x2="44" y2="20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="28" x2="44" y2="28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <line x1="20" y1="36" x2="36" y2="36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
           <p>Fill in the form and your document will appear here.</p>
         </div>
